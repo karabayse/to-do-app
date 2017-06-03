@@ -2,5 +2,12 @@ body {
   background-color: PaleTurquoise;
   font-family: Impact;
   text-align: center;
-  border-style: ridge;
+  /*border-style: ridge;*/
+  background-image: url('http://clipartme.com/wp-content/uploads/2017/04/lined-paper-clipart-5.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
+
+/*span {
+  border-style: ridge;
+}*/

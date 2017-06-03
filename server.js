@@ -31,3 +31,21 @@ app.get('/', function(req, res){
   console.log('base url hit');
   res.sendFile(path.resolve('views/index.html'));
 });
+
+// app.post to create task
+app.post('/createTask', function(req, res){
+  console.log('createTask route');
+  var createdTask = {
+    response: ('from createTask', req.body)};
+    pool.connect(function(err, connection, done){
+      if (err){
+        console.log(err);
+        res.send(400);
+      } else {
+        console.log('connected');
+        res.send(createdTask);
+      }
+      connection.query("INSERT into todolist (task) VALUES ($1)", [req.body.task]);
+      done();
+    }); // end pool.connect function
+  }); // end app.post to /createTask
