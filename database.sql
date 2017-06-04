@@ -1,0 +1,5 @@
+CREATE TABLE todolist (
+	id SERIAL PRIMARY KEY NOT NULL,
+	task VARCHAR(100),
+  complete BOOLEAN
+);
