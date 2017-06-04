@@ -40,7 +40,7 @@ function getTasks(){
     success: function(response){
       for (var i = 0; i < response.length; i++) {
         // show tasks on DOM
-        $('#tasksContainer').append('<p>' + response[i].task + '<button id="completeButton">Complete</button' + '<button id="deleteButton">Delete</button' + '/p');
+        $('#tasksContainer').append('<p>' + response[i].task + ' <button id="completeButton">Complete</button> ' + ' <button id="deleteButton">Delete</button> ' + '</p>');
         console.log('appending tasks to DOM');
       } // end for loop to append tasks and buttons to DOM
     } // end success function
