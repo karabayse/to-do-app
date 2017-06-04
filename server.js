@@ -49,3 +49,28 @@ app.post('/createTask', function(req, res){
       done();
     }); // end pool.connect function
   }); // end app.post to /createTask
+
+  // app.get to get tasks
+  app.get('/getTasks', function(req, res){
+    console.log('get hit to /getTasks');
+    var allTasks = [];
+    pool.connect(function(err, connection, done){
+      if (err) {
+        console.log('error');
+        done();
+        res.sendStatus(400);
+      } else {
+        console.log('connected to DB');
+        var resultSet = connection.query('SELECT * from todolist');
+        resultSet.on('row', function(row){
+          allTasks.push(row);
+          console.log('push tasks into allTasks array');
+        });
+        resultSet.on('end', function(){
+          console.log('allTasks ->', allTasks);
+          done();
+          res.send(allTasks);
+        });
+      }
+    });
+  });
