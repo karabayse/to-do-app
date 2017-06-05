@@ -1,18 +1,15 @@
 body {
   background-color: PaleTurquoise;
-  font-family: Impact;
+  font-family: Helvetica;
+  color: white;
   text-align: center;
-  /*border-style: ridge;*/
-  background-image: url('http://clipartme.com/wp-content/uploads/2017/04/lined-paper-clipart-5.png');
+  background-image: url('https://cms-assets.tutsplus.com/uploads/users/117/posts/22679/image/workicon-014.jpg');
   background-repeat: no-repeat;
   background-size: 100%;
 }
 
-/*span {
-  border-style: ridge;
-}*/
-
 div {
   text-align: left;
-  padding-left: 80px;
+  color: navy;
+  padding-left: 200px;
 }

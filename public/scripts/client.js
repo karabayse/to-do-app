@@ -64,6 +64,7 @@ function completeTask(){
     success: function(response){
       console.log('completed task');
       $('p').css('color', 'red');
+      $('p').append('✔');
     } // end ajax success function
   }); // end ajax call for completeTask function
 } // end completeTask function
