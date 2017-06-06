@@ -45,14 +45,14 @@ app.post('/createTask', function(req, res){
         console.log('connected');
         res.send(createdTask);
       }
-      connection.query("INSERT into todolist (task) VALUES ($1)", [req.body.task]);
+      connection.query("INSERT INTO todolist (task) VALUES ($1)", [req.body.task]);
       done();
     }); // end pool.connect in app.post to /createTask
   }); // end app.post to /createTask
 
   // app.get for getTasks function
   app.get('/getTasks', function(req, res){
-    console.log('get hit to /getTasks');
+    console.log('get hit in /getTasks route');
     var allTasks = [];
     pool.connect(function(err, connection, done){
       if (err) {
@@ -61,7 +61,7 @@ app.post('/createTask', function(req, res){
         res.sendStatus(400);
       } else {
         console.log('connected to DB');
-        var resultSet = connection.query('SELECT * from todolist');
+        var resultSet = connection.query("SELECT * FROM todolist");
         resultSet.on('row', function(row){
           allTasks.push(row);
           console.log('push tasks into allTasks array');
@@ -75,31 +75,33 @@ app.post('/createTask', function(req, res){
     }); // end of pool.connect in app.get to /getTasks
   }); // end of app.get to get tasks
 
-  // app.post for completeTask function
-  app.post('/completeTask', function(req, res){
-    console.log('in /completeTask route');
+  // app.put for completeTask function
+  app.put('/completeTask', function(req, res){
+    console.log('put hit in /completeTask route');
     pool.connect(function(err, connection, done){
       if(err){
         console.log('error');
+        done();
         res.sendStatus(400);
       } else {
         console.log('connected');
-        connection.query('UPDATE todolist SET complete = true WHERE id=$1', [req.body.id]);
+        console.log(req.body.id);
+        connection.query("UPDATE todolist SET complete='TRUE' WHERE id=$1", [req.body.id]);
         done();
         res.sendStatus(200);
-      } // end of else statement in app.post to /completeTask
-    }); // end of pool.connect in app.post to /completeTask
-  }); // end of app.post for completeTask function
+      } // end of else statement in app.put to /completeTask
+    }); // end of pool.connect in app.put to /completeTask
+  }); // end of app.put for completeTask function
 
   app.delete('/deleteTask',function(req, res){
-    console.log('in /deleteTask route');
+    console.log('delete hit in /deleteTask route');
     pool.connect(function(err, connection, done){
       if(err){
         console.log('error');
         res.sendStatus(400);
       } else {
         console.log('connected');
-        connection.query('DELETE FROM todolist WHERE id=$1', [req.body.id]);
+        connection.query("DELETE FROM todolist WHERE id=$1", [req.body.id]);
         done();
         res.sendStatus(200);
       } // end of else statement in app.delete to /deleteTask

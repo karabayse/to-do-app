@@ -3,11 +3,13 @@ console.log('client.js');
 $(document).ready(onReady);
 
 function onReady(){
+getTasks();
 
 // event listeners
 $('#createTaskButton').on('click', createTask);
 $(document).on('click', '#completeTaskButton',completeTask);
 $(document).on('click', '#deleteTaskButton', deleteTask);
+} // end onReady function
 
 // function to run on click to create new task
 function createTask(){
@@ -31,7 +33,6 @@ function createTask(){
     } // end ajax success function
   }); // end ajax call for createTask function
 } // end createTask function
-} // end onReady function
 
 // function to get tasks
 function getTasks(){
@@ -42,8 +43,18 @@ function getTasks(){
     success: function(response){
       $('#tasksContainer').empty();
       for (var i = 0; i < response.length; i++) {
-        // show tasks on DOM
-        $('#tasksContainer').append('<p>' + response[i].task + ' <button id="completeTaskButton">Complete</button> ' + ' <button id="deleteTaskButton">Delete</button> ' + '</p>');
+        var $p = $('<p class = "task">');
+        $p.data('id', response[i].id);
+        $p.append(response[i].task);
+        $p.append('<button id="deleteTaskButton">Delete</button>');
+
+        if ( response[i].complete === true){
+          $p.addClass('completed');
+          $p.append('✔');
+        } else {
+          $p.append('<button id="completeTaskButton">Complete</button>');
+        }
+        $('#tasksContainer').append($p);
         console.log('appending tasks to DOM');
       } // end for loop to append tasks and buttons to DOM
     } // end success function
@@ -53,19 +64,18 @@ function getTasks(){
 // function to complete task
 function completeTask(){
   console.log('in completeTask function');
+  var $button = $(this);
+  var id = $button.parent().data('id');
+  console.log(id);
   // task completed to send
   var completedTask = {
-    id: $(this).data('id'),
+    id: $(this).parent().data('id'),
   }; // end task completed to send
   $.ajax({
     url: '/completeTask',
-    type: 'POST',
+    type: 'PUT',
     data: completedTask,
-    success: function(response){
-      console.log('completed task');
-      $('p').css('color', 'red');
-      $('p').append('✔');
-    } // end ajax success function
+    success: getTasks
   }); // end ajax call for completeTask function
 } // end completeTask function
 
